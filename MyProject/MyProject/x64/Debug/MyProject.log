@@ -1,0 +1,5 @@
+﻿  Main.c
+C:\Users\Usuario\source\repos\MyProject\MyProject\Main.c(104,12): warning C4087: 'draw_grid': se ha declarado con la lista de parámetros 'void'
+C:\Users\Usuario\source\repos\MyProject\MyProject\Main.c(111,22): warning C4244: 'función': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\Usuario\source\repos\MyProject\MyProject\Main.c(112,22): warning C4244: 'función': conversión de 'float' a 'int'; posible pérdida de datos
+  MyProject.vcxproj -> C:\Users\Usuario\source\repos\MyProject\x64\Debug\MyProject.exe
