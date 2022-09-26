@@ -100,8 +100,6 @@ void draw_rect(int x, int y, int width, int height, uint32_t color) {
 	* height = altura
 	*/
 
-	/*---- draw_rect accede directamente al buffer, lo cambiamos para que lo que haga es llamar a la función draw_pixel y esta ya se encarga de mostrarlo ----*/
-
     for (int i = 0; i < width; i++) {
         for (int j = 0; j < height; j++) {
             int current_x = x + i;

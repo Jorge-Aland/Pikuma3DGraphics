@@ -9,9 +9,11 @@
 
 #define N_POINTS (9 * 9 * 9)  //Esta es la forma de definir una constante
 vec3_t cube_points[N_POINTS]; //9x9x9 cube, hemos definido un array de 729 valores
-vec2_t projected_points[N_POINTS]; /*---- Creamos una array de puntos proyectados ----*/
+vec2_t projected_points[N_POINTS]; /*Creamos una array de puntos proyectados */
 bool is_running = false;
-float fov_factor = 32;
+float fov_factor = 640;
+
+vec3_t camera_position = { 0,0,-5 }; // ---- Creamos una a variable global para contener la posición de la cámara ----
 
 
 
@@ -73,23 +75,28 @@ void process_input(void) {
 	}
 }
 
-/*---- Funcion que recibe un vector3d y proyecta un punto 2D, vamos a necesitar que se multiplique por un factor para escalar el punto ---*/
+/* Funcion que recibe un vector3d y proyecta un punto 2D, vamos a necesitar que se multiplique por un factor para escalar el punto */
 
 vec2_t project(vec3_t point) {
 	vec2_t projected_point = {
-		.x = (fov_factor * point.x), // fov_factor es un factor para modificar escalar el punto, fov_factor es por ejemplo 128, si nos llega línea compuesta
+		.x = (fov_factor * point.x) / point.z, /*---- Implementamos perspectiva dividiendo entre la distancia z ----*/
+		// fov_factor es un factor para modificar escalar el punto, fov_factor es por ejemplo 128, si nos llega línea compuesta
 		// por 3 vectores o puntos, que está en el 1,2,3 al pasar poraquí pasarán a estar en la posición x = 128, 256 y 38
-		.y = (fov_factor * point.y)
+		.y = (fov_factor * point.y)/point.z
 	};
 	return projected_point;
 }
 
 void update(void) {
 
-	/*----  Accedemos a todos los puntos y los vamos proyectando. ----*/
+	/*  Accedemos a todos los puntos y los vamos proyectando */
 
 	for (int i = 0; i < N_POINTS; i++) {
 		vec3_t point = cube_points[i];
+
+
+
+		point.z -= camera_position.z; //----Los puntos se alejan de la cámara por tanto restamos a el punto en z la posición en z de la cámara----
 
 		// Project the current point
 		vec2_t projected_point = project(point);
@@ -103,7 +110,7 @@ void render(void) {
 
 	draw_grid(0xFF444444);
 	
-	/*---Iteramos por todos los puntos proyectados y los renderizamos---*/
+	/* Iteramos por todos los puntos proyectados y los renderizamos */
 	// Loop all projected points and render them
 	for (int i = 0; i < N_POINTS; i++) {
 		vec2_t projected_point = projected_points[i]; //Accedemos a el punto del array de puntos proyectados y lo guardamos en projected_points local
